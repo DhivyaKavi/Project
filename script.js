@@ -1,45 +1,28 @@
-function updateClock() {
+var btn = document.getElementById("btn");
+var body = document.querySelector("body");
 
-	var now = new Date();
-	var dayname = now.getDay(),
-		month = now.getMonth(),
-		date = now.getDate(),
-		year = now.getFullYear(),
-		hours = now.getHours(),
-		min = now.getMinutes(),
-		sec = now.getSeconds(),
-		period = "AM";
+function calculate() {
 
-	var months = ["Janaury", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday"]
+    var CI = 0;
+    var principal = document.getElementById("principal").value;
+    var interest = document.getElementById("annual-interest-rate").value;
+    var nyear = document.getElementById("number-of-year").value;
+    var ntime = document.getElementById("number-of-times-in-year").value;
 
-	if (hours == 0)
-		hours = 12;
-
-	if (hours > 12) {
-		// hours  = hours -12;
-		period = "PM";
-	}
-
-	// add 0 in the beginning of number if less than 10
-	hours = (hours < 10) ? "0" + hours : hours;
-	min = (min < 10) ? "0" + min : min;
-	sec = (sec < 10) ? '0' + sec : sec;
-
-	document.querySelector("#dayname").innerHTML = days[dayname];
-	document.querySelector("#month").innerHTML = months[month];
-	document.querySelector("#daynum").innerHTML = date;
-	document.querySelector("#year").innerHTML = year;
-	document.querySelector("#hour").innerHTML = hours;
-	document.querySelector("#minutes").innerHTML = min;
-	document.querySelector("#seconds").innerHTML = sec;
-	document.querySelector("#period").innerHTML = period;
-
+    if(principal > 0 && interest > 0 && nyear > 0 && ntime > 0) {
+        CI = (principal* Math.pow((1 + (interest/(ntime*100))), (ntime*nyear)));
+        CI = CI.toFixed(2);
+        document.getElementById("res").innerHTML = CI; 
+    } 
+    else{
+        alert("Please Enter Valid Values!!")
+    }
+    
 }
 
-function intiClock() {
-	updateClock();
-	window.setInterval("updateClock()", 1);
-}
-
-intiClock();
+btn.addEventListener("click", calculate);
+body.addEventListener("keypress", function check(event) {
+    if(event.keyCode === 13){
+        calculate();
+    }
+});
